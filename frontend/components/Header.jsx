@@ -22,7 +22,7 @@ const Header = () => {
 
           {/* when signed out  */}
           <SignedOut>
-            <SignInButton>
+            <SignInButton mode="modal">
               <Button
                 variant="ghost"
                 className="text-stone-600 hover:text-orange-600 hover:bg-orange-50 font-medium cursor-pointer"
@@ -30,10 +30,13 @@ const Header = () => {
                 Sign In
               </Button>
             </SignInButton>
-            <SignUpButton>
-              <button className="bg-[#6c47ff] text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-                Sign Up
-              </button>
+            <SignUpButton mode="modal">
+              <Button
+                variant="primary"
+                className="rounded-full px-6 cursor-pointer"
+              >
+                Get Started
+              </Button>
             </SignUpButton>
           </SignedOut>
         </div>
