@@ -10,6 +10,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { Cookie, Refrigerator } from "lucide-react";
+import UserDropdown from "./UserDropdown";
 
 const Header = () => {
   const user = null;
@@ -44,7 +45,7 @@ const Header = () => {
         <div className="flex items-center space-x-4">
           {/* Show the user button when the user is signed in */}
           <SignedIn>
-            <UserButton />
+            <UserDropdown />
           </SignedIn>
 
           {/* when signed out  */}
