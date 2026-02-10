@@ -7,13 +7,40 @@ import {
 } from "@clerk/nextjs";
 import React from "react";
 import { Button } from "./ui/button";
+import Link from "next/link";
+import Image from "next/image";
+import { Cookie, Refrigerator } from "lucide-react";
 
 const Header = () => {
+  const user = null;
   return (
     <header className="fixed top-0  w-full border-b border-stone-200 bg-stone-50/80 backdrop-blur-md z-50 supports-backdrop-filter:bg-stone-50/60">
       <nav className="container mx-auto px-4 h-16 flex justify-between items-center">
-        logo
-        <div>nav links</div>
+        <Link href={user ? "/dashboard" : "/"}>
+          <Image
+            src="/luffyDCook.png"
+            alt="Company-Logo"
+            height={40}
+            width={40}
+            className="w-16"
+          />
+        </Link>
+        <div className="hidden md:flex items-center space-x-8 text-sm text-stone-600 font-medium">
+          <Link
+            href="/recipes"
+            className="hover:text-orange-600 transition-colors flex gap-1.5 items-center"
+          >
+            <Cookie className="w-4 h-4" />
+            My Recipes
+          </Link>
+          <Link
+            href="/pantry"
+            className="hover:text-orange-600 transition-colors flex gap-1.5 items-center"
+          >
+            <Refrigerator className="w-4 h-4" />
+            My Recipes
+          </Link>
+        </div>
         <div className="flex items-center space-x-4">
           {/* Show the user button when the user is signed in */}
           <SignedIn>
