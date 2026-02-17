@@ -9,12 +9,15 @@ import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import Image from "next/image";
-import { Cookie, Refrigerator } from "lucide-react";
+import { Cookie, Refrigerator, Sparkles } from "lucide-react";
 import UserDropdown from "./UserDropdown";
 import { checkUser } from "@/lib/checkUser";
+import PricingModel from "./PricingModel";
+import { Badge } from "./ui/badge";
 
 const Header = async () => {
   const user = await checkUser();
+  console.log("user1: ", user);
   return (
     <header className="fixed top-0  w-full border-b border-stone-200 bg-stone-50/80 backdrop-blur-md z-50 supports-backdrop-filter:bg-stone-50/60">
       <nav className="container mx-auto px-4 h-16 flex justify-between items-center">
@@ -46,6 +49,19 @@ const Header = async () => {
         <div className="flex items-center space-x-4">
           {/* Show the user button when the user is signed in */}
           <SignedIn>
+            {user?.email && (
+              <PricingModel subscriptionTier={user.subscriptionTier}>
+                <Badge>
+                  <Sparkles
+                    className={`h-3 w-3 ${user.subscriptionTier === "pro" ? "text-white fill-white/20" : "text-stone-500"}`}
+                  />
+
+                  <span>
+                    {user.subscriptionTier === "pro" ? "Pro Chef" : "Free Plan"}
+                  </span>
+                </Badge>
+              </PricingModel>
+            )}
             <UserDropdown />
           </SignedIn>
 
