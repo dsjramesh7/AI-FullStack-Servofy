@@ -20,7 +20,7 @@ export const checkUser = async () => {
   const subscriptionTier = has({ plan: "pro" }) ? "pro" : "free";
   try {
     const existingUserResponse = await fetch(
-      `${STRAPI_URL}/api/users?filters[clerkId][$eq]=${user.id}`,
+      `${STRAPI_URL}/api/users?filters[$or][0][clerkId][$eq]=${user.id}&filters[$or][1][email][$eq]=${user.emailAddresses[0].emailAddress}`,
       {
         headers: {
           Authorization: `Bearer ${STRAPI_API_TOKEN}`,
