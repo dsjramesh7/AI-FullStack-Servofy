@@ -23,7 +23,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* <PricingTable
+      <PricingTable
         checkoutProps={{
           appearance: {
             elements: {
@@ -33,7 +33,18 @@ export default async function Home() {
             },
           },
         }}
-      /> */}
+      />
+      <PricingTable
+        checkoutProps={{
+          appearance: {
+            elements: {
+              drawerRoot: {
+                zIndex: 2000,
+              },
+            },
+          },
+        }}
+      />
     </div>
   );
 }
