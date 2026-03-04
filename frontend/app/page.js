@@ -1,7 +1,10 @@
+import PricingSection from "@/components/PricingSection";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { FEATURES, HOW_IT_WORKS_STEPS, SITE_STATS } from "@/lib/data";
 import { auth } from "@clerk/nextjs/server";
-import { ArrowRight, Badge, Clock, Flame, Star, Users } from "lucide-react";
+import { ArrowRight, Clock, Flame, Star, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,6 +13,7 @@ export default async function Home() {
   const subscriptionTier = has({ plan: "pro" } ? "pro" : "free");
   return (
     <div className="min-h-screen bg-stone-50 text-stone-900">
+      {/* Hero Section ye hai  */}
       <section className="pt-32 pb-20 px-4">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
@@ -97,17 +101,106 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* <PricingTable
-        checkoutProps={{
-          appearance: {
-            elements: {
-              drawerRoot: {
-                zIndex: 2000,
-              },
-            },
-          },
-        }}
-      /> */}
+      {/* Stats of the website Section*/}
+      <section className="py-12 border-y-2 border-stone-900 bg-stone-900">
+        <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center px-4">
+          {SITE_STATS.map((stat, i) => (
+            <div key={i}>
+              <div className="text-4xl font-bold mb-1 text-stone-50">
+                {stat.val}
+              </div>
+              <Badge
+                variant="secondary"
+                className="bg-transparent text-orange-500 text-sm uppercase tracking-wider font-medium border-none"
+              >
+                {stat.label}
+              </Badge>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Features Section*/}
+      <section className="py-24 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-16">
+            <h2 className="text-5xl md:text-6xl font-bold mb-4">
+              Your Smart Kitchen
+            </h2>
+            <p className="text-stone-600 text-xl font-light">
+              Everything you need to master your meal prep.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {FEATURES.map((feature, index) => {
+              const IconComponent = feature.icon;
+              return (
+                <Card
+                  key={index}
+                  className="border-2 border-stone-200 bg-white hover:border-orange-600 hover:shadow-lg transition-all group py-0"
+                >
+                  <CardContent className="p-8">
+                    <div className="flex justify-between items-start mb-6">
+                      <div className="border-2 border-stone-200 bg-orange-50 p-3 group-hover:border-orange-600 group-hover:bg-orange-100 transition-colors">
+                        <IconComponent className="w-6 h-6" />
+                      </div>
+                      <Badge
+                        variant="secondary"
+                        className="text-xs font-mono bg-stone-100 text-stone-600 uppercase tracking-wide border border-stone-200"
+                      >
+                        {feature.limit}
+                      </Badge>
+                    </div>
+                    <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
+                    <p className="text-stone-600 text-lg font-light">
+                      {feature.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* How it work Section */}
+      <section className="py-24 px-4 border-y-2 border-stone-200 bg-stone-900 text-stone-50">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-5xl md:text-6xl font-bold mb-16">
+            Cook in 3 Steps
+          </h2>
+
+          <div className="space-y-12">
+            {HOW_IT_WORKS_STEPS.map((item, i) => (
+              <div key={i}>
+                <div className="flex gap-6 items-start">
+                  <Badge
+                    variant="outline"
+                    className="text-6xl font-bold text-orange-500 border-none bg-transparent p-0 h-auto"
+                  >
+                    {item.step}
+                  </Badge>
+                  <div>
+                    <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
+                    <p className="text-lg text-stone-400 font-light">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+                {i < HOW_IT_WORKS_STEPS.length - 1 && (
+                  <hr className="my-8 bg-stone-700" />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section  */}
+      <section className="max-w-5xl mx-auto">
+        <PricingSection subscriptionTier={subscriptionTier} />
+      </section>
     </div>
   );
 }
