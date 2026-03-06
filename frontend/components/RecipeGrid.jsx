@@ -2,6 +2,7 @@ import useFetchHook from "@/hooks/use-fetch";
 import { ArrowLeft, Loader } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import RecipeCard from "./RecipeCard";
 
 const RecipeGrid = ({ type, value, fetchAction, backLink }) => {
   const { data, loading, fn: fetchMeals } = useFetchHook(fetchAction);
@@ -68,6 +69,15 @@ const RecipeGrid = ({ type, value, fetchAction, backLink }) => {
                 Go back to explore more
               </span>
             </Link>
+          </div>
+        )}
+
+        {/* if fooddata exist  */}
+        {!loading && meals.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {meals.map((meal) => (
+              <RecipeCard key={meal.idMeal} recipe={meal} variant="grid" />
+            ))}
           </div>
         )}
       </div>
