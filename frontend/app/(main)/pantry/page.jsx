@@ -1,5 +1,6 @@
 "use client";
 
+import AddPantryModal from "@/components/AddPantryModal";
 import { Button } from "@/components/ui/button";
 import { Package, Plus } from "lucide-react";
 import React, { useState } from "react";
@@ -12,6 +13,8 @@ const PantryPage = () => {
     name: "",
     quantity: "",
   });
+
+  const handleModalSuccess = () => {};
   return (
     <div className="min-h-screen bg-stone-50 pt-24 pb-16 px-4">
       <div className="container mx-auto max-w-5xl">
@@ -40,6 +43,13 @@ const PantryPage = () => {
           </div>
         </div>
       </div>
+
+      {/* pantry Modal dialog box */}
+      <AddPantryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleModalSuccess}
+      />
     </div>
   );
 };
