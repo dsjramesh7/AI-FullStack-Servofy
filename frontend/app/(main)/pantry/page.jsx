@@ -1,8 +1,17 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Package, Plus } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 
 const PantryPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [items, setItems] = useState([]);
+  const [editingId, setIsEditingId] = useState(null);
+  const [editingValues, setIsEditingValues] = useState({
+    name: "",
+    quantity: "",
+  });
   return (
     <div className="min-h-screen bg-stone-50 pt-24 pb-16 px-4">
       <div className="container mx-auto max-w-5xl">
@@ -21,6 +30,7 @@ const PantryPage = () => {
             </div>
 
             <Button
+              onClick={() => setIsModalOpen(true)}
               className="hidden md:flex bg-orange-600 hover:bg-orange-700 text-white gap-2"
               size="lg"
             >
