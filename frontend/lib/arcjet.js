@@ -1,4 +1,4 @@
-import arcjet from "@arcjet/next";
+import arcjet, { tokenBucket } from "@arcjet/next";
 
 export const aj = arcjet({
   key: process.env.ARCJET_KEY,
