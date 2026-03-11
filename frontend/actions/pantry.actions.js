@@ -208,6 +208,7 @@ export async function addPantryItemManually(formData) {
     }
 
     const data = await response.json();
+    console.log("addPantryData: ", data);
 
     return {
       success: true,
