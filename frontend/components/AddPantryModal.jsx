@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -48,6 +50,16 @@ const AddPantryModal = ({ isOpen, onClose, onSuccess }) => {
     setManualItem({ name: "", quantity: "" });
     onClose();
   };
+
+  useEffect(() => {
+    if (addData?.success) {
+      toast.success("Item added to pantry!");
+      setManualItem({ name: "", quantity: "" });
+      handleClose();
+      if (onSuccess) onSuccess();
+    }
+  }, [addData]);
+
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto rounded-none">

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
 import {
@@ -27,8 +28,8 @@ import React, { useEffect, useState } from "react";
 const PantryPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [items, setItems] = useState([]);
-  const [editingId, setIsEditingId] = useState(null);
-  const [editingValues, setIsEditingValues] = useState({
+  const [editingId, setEditingId] = useState(null);
+  const [editValues, setEditValues] = useState({
     name: "",
     quantity: "",
   });
@@ -62,7 +63,7 @@ const PantryPage = () => {
   // Update items when data arrives
   useEffect(() => {
     if (itemsData?.success) {
-      // setItems(itemsData?.items);
+      setItems(itemsData?.items);
     }
   }, [itemsData]);
 
@@ -83,7 +84,9 @@ const PantryPage = () => {
     }
   }, [updateData]);
 
-  const handleModalSuccess = () => {};
+  const handleModalSuccess = () => {
+    fetchItems();
+  };
   return (
     <div className="min-h-screen bg-stone-50 pt-24 pb-16 px-4">
       <div className="container mx-auto max-w-5xl">
@@ -135,7 +138,7 @@ const PantryPage = () => {
         )}
 
         {/* quick action card  */}
-        {true > 0 && (
+        {items.length > 0 && (
           <Link href="/pantry/recipes" className="block mb-8">
             <div className="bg-linear-to-br from-green-600 to-emerald-500 text-white p-6 border-2 border-emerald-700 hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer group">
               <div className="flex items-center gap-4">
