@@ -12,7 +12,7 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
-export const scanPantryImage = async () => {
+export const scanPantryImage = async (formData) => {
   try {
     const user = await checkUser();
     if (!user) {
@@ -20,6 +20,7 @@ export const scanPantryImage = async () => {
     }
 
     const isPro = user.subscriptionTier === "pro";
+    console.log("prohai?: ", isPro);
 
     //adding rate limiter based on tier with help of Arcjet
     const arcjetClient = isPro ? proTierLimit : freePantryScans;
@@ -88,6 +89,8 @@ Rules:
       },
     ]);
 
+    const response = await result.response;
+    const text = response.text();
     // Parse JSON response
     let ingredients;
     try {

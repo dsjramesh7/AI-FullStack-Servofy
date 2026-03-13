@@ -42,18 +42,61 @@ const AddPantryModal = ({ isOpen, onClose, onSuccess }) => {
     fn: saveScannedItems,
   } = useFetchHook(saveToPantry);
 
-  // Handle image selection
-  const handleImageSelect = (file) => {
-    setSelectedImage(file);
-    setScannedIngredients([]); // Reset when new image selected
-  };
-
-  // ======Add manual item======
+  // add manual item
   const {
     loading: adding,
     data: addData,
     fn: addManualItem,
   } = useFetchHook(addPantryItemManually);
+
+  // Handle image selection
+  const handleImageSelect = (file) => {
+    setSelectedImage(file);
+    setScannedIngredients([]);
+  };
+
+  // Scan image
+  const handleScan = async () => {
+    if (!selectedImage) return;
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+    await scanImage(formData);
+  };
+
+  useEffect(() => {
+    if (scanData?.success && scanData?.ingredients) {
+      setScannedIngredients(scanData.ingredients);
+      toast.success(`Found ${scanData.ingredients.length} ingredients!`);
+    }
+  }, [scanData]);
+
+  const handleSaveScanned = async () => {
+    if (scannedIngredients.length === 0) {
+      toast.error("No ingredients to save");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("ingredients", JSON.stringify(scannedIngredients));
+    await saveScannedItems(formData);
+  };
+
+  const handleClose = () => {
+    setActiveTab("scan");
+    setSelectedImage(null);
+    setScannedIngredients([]);
+    setManualItem({ name: "", quantity: "" });
+    onClose();
+  };
+
+  // Handle save success
+  useEffect(() => {
+    if (saveData?.success) {
+      toast.success(saveData.message);
+      handleClose();
+      if (onSuccess) onSuccess();
+    }
+  }, [saveData]);
 
   const handleAddManual = async (e) => {
     e.preventDefault();
@@ -70,14 +113,6 @@ const AddPantryModal = ({ isOpen, onClose, onSuccess }) => {
     console.log("process completed");
   };
 
-  const handleClose = () => {
-    setActiveTab("scan");
-    setSelectedImage(null);
-    setScannedIngredients([]);
-    setManualItem({ name: "", quantity: "" });
-    onClose();
-  };
-
   useEffect(() => {
     if (addData?.success) {
       toast.success("Item added to pantry!");
@@ -87,6 +122,10 @@ const AddPantryModal = ({ isOpen, onClose, onSuccess }) => {
     }
   }, [addData]);
 
+  // Remove scanned ingredient
+  const removeIngredient = (index) => {
+    setScannedIngredients(scannedIngredients.filter((_, i) => i !== index));
+  };
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto rounded-none">
