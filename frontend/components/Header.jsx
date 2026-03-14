@@ -14,6 +14,7 @@ import UserDropdown from "./UserDropdown";
 import { checkUser } from "@/lib/checkUser";
 import PricingModel from "./PricingModel";
 import { Badge } from "./ui/badge";
+import HowToCookModal from "./HowToCookModal";
 
 const Header = async () => {
   const user = await checkUser();
@@ -43,12 +44,15 @@ const Header = async () => {
             className="hover:text-orange-600 transition-colors flex gap-1.5 items-center"
           >
             <Refrigerator className="w-4 h-4" />
-            My Recipes
+            My Pantry
           </Link>
         </div>
         <div className="flex items-center space-x-4">
           {/* Show the user button when the user is signed in */}
           <SignedIn>
+            {/* How to Cook Modal  */}
+            <HowToCookModal />
+
             {user?.email && (
               <PricingModel subscriptionTier={user.subscriptionTier}>
                 <Badge
